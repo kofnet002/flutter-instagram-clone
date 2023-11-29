@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_build_context_synchronously, deprecated_member_use, library_private_types_in_public_api, use_super_parameters
 
 import 'dart:typed_data';
 
@@ -23,6 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   Uint8List? _image;
+  bool _isLoading = false;
 
 // to clear the controllers when done
   @override
@@ -39,6 +40,29 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       _image = image;
     });
+  }
+
+  void signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    String res = await AuthMethods().signUpUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+        username: _usernameController.text,
+        bio: _bioController.text,
+        file: _image!);
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (res != 'Successfully registered') {
+      showSnackBar(res, context);
+    } else {
+      //
+    }
   }
 
   @override
@@ -73,7 +97,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         radius: 64,
                         backgroundImage: MemoryImage(_image!),
                       )
-                    : CircleAvatar(
+                    : const CircleAvatar(
                         radius: 64,
                         backgroundImage: NetworkImage(
                             'https://www.mtsolar.us/wp-content/uploads/2020/04/avatar-placeholder.png'),
@@ -141,18 +165,15 @@ class _SignupScreenState extends State<SignupScreen> {
 
             // login button
             InkWell(
-              onTap: () async {
-                String res = await AuthMethods().signUpUser(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                    username: _usernameController.text,
-                    bio: _bioController.text,
-                    file: _image!);
-
-                print(res);
-              },
+              onTap: signUpUser,
               child: Container(
-                child: const Text('Sign up'),
+                child: _isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: primaryColor,
+                        ),
+                      )
+                    : const Text('Sign up'),
                 width: double.infinity,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -175,9 +196,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    print(_usernameController.value);
-                  },
+                  onTap: () {},
                   child: Container(
                     child: const Text(
                       "Login",

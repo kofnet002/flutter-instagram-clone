@@ -47,6 +47,43 @@ class AuthMethods {
 
         res = "Successfully registered";
       }
+    }
+    // on FirebaseAuthException catch (error) {
+    //   if (error.code == 'invalid-email') {
+    //     res = 'The email is badly formatted';
+    //   } else if (error.code == 'weak-password') {
+    //     res = 'Password should be at least 6 characters';
+    //   }
+    // }
+    catch (error) {
+      res = error.toString();
+    }
+    return res;
+  }
+
+  // login user
+  Future<String> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    String res = 'Something went wrong';
+
+    try {
+      if (email.isNotEmpty || password.isNotEmpty) {
+        await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        res = "Login successful";
+      } else {
+        res = "Email and password cannot be empty";
+      }
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'invalid-email') {
+        res = 'Email is badly formatted';
+      } else if (error.code == 'user-not-found') {
+        res = 'Invalid credentials';
+      } else if (error.code == 'invalid-credential') {
+        res = 'Invalid credentials';
+      }
     } catch (error) {
       res = error.toString();
     }
