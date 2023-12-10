@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/models/user.dart';
 import 'package:instagram_clone/providers/user_provider.dart';
 import 'package:instagram_clone/resources/firestore_methods.dart';
+import 'package:instagram_clone/screens/feed_screen.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
         });
         showSnackBar('Posted successfully', context);
         clearImage();
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const FeedScreen()));
       } else {
         setState(() {
           _isLoading = false;
@@ -102,6 +105,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   void clearImage() {
     setState(() {
       _file = null;
+      _descriptionController.text = '';
     });
   }
 

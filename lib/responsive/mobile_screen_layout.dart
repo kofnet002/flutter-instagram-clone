@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/add_post_screen.dart';
+import 'package:instagram_clone/screens/feed_screen.dart';
 import 'package:instagram_clone/utils/colors.dart';
 // import 'package:instagram_clone/providers/user_provider.dart';
 // import 'package:provider/provider.dart';
@@ -48,11 +49,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     return Scaffold(
       body: PageView(
         children: [
-          Center(
-            child: Text(
-              'Feed',
-            ),
-          ),
+          FeedScreen(),
           Center(
             child: Text(
               'Search',
