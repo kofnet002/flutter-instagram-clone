@@ -39,8 +39,6 @@ class AuthMethods {
         UserCredential credential = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 
-        print(credential.user!.uid);
-
         // save profile image
         String photoUrl = await StorageMethods()
             .uploadImageToStorage('profilePics', file, false);
