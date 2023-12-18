@@ -79,7 +79,7 @@ class FirestoreMethods {
           'uid': uid,
           'text': text,
           'commentId': commentId,
-          'dataPublished': DateTime.now()
+          'datePublished': DateTime.now(),
         });
       }
     } catch (error) {
