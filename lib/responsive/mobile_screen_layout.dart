@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/add_post_screen.dart';
 import 'package:instagram_clone/screens/feed_screen.dart';
 import 'package:instagram_clone/utils/colors.dart';
+import 'package:instagram_clone/widgets/search_screen.dart';
 // import 'package:instagram_clone/providers/user_provider.dart';
 // import 'package:provider/provider.dart';
 // import 'package:instagram_clone/models/user.dart' as model;
@@ -50,11 +51,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       body: PageView(
         children: [
           FeedScreen(),
-          Center(
-            child: Text(
-              'Search',
-            ),
-          ),
+          SearchScreen(),
           AddPostScreen(),
           Center(
             child: Text(
