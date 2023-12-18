@@ -49,7 +49,6 @@ class _PostCardState extends State<PostCard> {
   Widget build(BuildContext context) {
     // get user details from provider
     final User user = Provider.of<UserProvider>(context).getUser;
-    print('Length: $commentLen');
 
     return Container(
       color: mobileBackgroundColor,

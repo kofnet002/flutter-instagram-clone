@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/screens/add_post_screen.dart';
 import 'package:instagram_clone/screens/feed_screen.dart';
+import 'package:instagram_clone/screens/profile_screen.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/widgets/search_screen.dart';
 // import 'package:instagram_clone/providers/user_provider.dart';
@@ -58,10 +60,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               'favorite',
             ),
           ),
-          Center(
-            child: Text(
-              'Profile',
-            ),
+          ProfileScreen(
+            uid: FirebaseAuth.instance.currentUser!.uid,
           ),
         ],
         controller: pageController,
