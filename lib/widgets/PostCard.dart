@@ -85,8 +85,37 @@ class _PostCardState extends State<PostCard> {
                 // more button
                 PopupMenuButton(
                   onSelected: (value) {
-                    // your logic
-                    print(value);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Delete Post'),
+                            content:
+                                const Text('Are you sure you want to delete ?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  FirestoreMethods()
+                                      .deletePost(widget.snap['postId']);
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text(
+                                  "Delete",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            ],
+                          );
+                        });
                   },
                   itemBuilder: (BuildContext context) {
                     return [
