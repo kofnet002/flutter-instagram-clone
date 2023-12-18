@@ -1,15 +1,15 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class CommentPage extends StatefulWidget {
-  const CommentPage({Key? key}) : super(key: key);
+class CommentCard extends StatefulWidget {
+  final snap;
+  const CommentCard({Key? key, required this.snap}) : super(key: key);
 
   @override
-  _CommentPageState createState() => _CommentPageState();
+  _CommentCardState createState() => _CommentCardState();
 }
 
-class _CommentPageState extends State<CommentPage> {
+class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +18,7 @@ class _CommentPageState extends State<CommentPage> {
         children: [
           CircleAvatar(
             backgroundImage: NetworkImage(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtYe18GmL_6gvY0b8hbZPqS-QnrfnB_NXqCg&usqp=CAU',
+              widget.snap['profilePic'],
             ),
             radius: 20,
           ),
@@ -32,24 +32,25 @@ class _CommentPageState extends State<CommentPage> {
                   RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: 'username',
+                        text: widget.snap['name'],
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       TextSpan(
-                        text: 'some description',
+                        text: ' ${widget.snap['text']}',
                       ),
                     ]),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 4)
+                        .copyWith(bottom: 10),
                     child: Text(
-                      '16/12/2023',
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                      DateFormat.yMMMd()
+                          .format(widget.snap['datePublished'].toDate()),
+                      style: const TextStyle(fontSize: 14),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

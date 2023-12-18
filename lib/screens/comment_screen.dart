@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/models/user.dart';
 import 'package:instagram_clone/providers/user_provider.dart';
 import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/utils/colors.dart';
-import 'package:instagram_clone/widgets/comment_page.dart';
+import 'package:instagram_clone/widgets/comment_card.dart';
 import 'package:provider/provider.dart';
 
 class CommentScreen extends StatefulWidget {
@@ -31,8 +32,16 @@ class _CommentScreenState extends State<CommentScreen> {
 
     // ******************************** POST COMMENTS
     void postComment() async {
-      await FirestoreMethods().postComment(widget.snap['postId'],
-          _commentController.text, user.uid, user.username, user.photoUrl);
+      await FirestoreMethods().postComment(
+        widget.snap['postId'],
+        _commentController.text,
+        user.uid,
+        user.username,
+        user.photoUrl,
+      );
+      setState(() {
+        _commentController.text = "";
+      });
     }
 
     return Scaffold(
@@ -44,7 +53,28 @@ class _CommentScreenState extends State<CommentScreen> {
       ),
 
       // ******************************** BODY
-      body: CommentPage(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('posts')
+            .doc(widget.snap['postId'])
+            .collection('comments')
+            .orderBy('datePublished', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: primaryColor,
+              ),
+            );
+          }
+          return ListView.builder(
+            itemCount: (snapshot.data! as dynamic).docs.length,
+            itemBuilder: (context, index) => CommentCard(
+                snap: (snapshot.data! as dynamic).docs[index].data()),
+          );
+        },
+      ),
       // ******************************** COMMENT INPUT FIELD
       bottomNavigationBar: SafeArea(
         child: Container(
