@@ -58,6 +58,8 @@ class AuthMethods {
             );
 
         res = "Successfully registered";
+      } else {
+        res = "All fields are required";
       }
     }
     // on FirebaseAuthException catch (error) {
