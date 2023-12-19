@@ -86,13 +86,16 @@ class _SignupScreenState extends State<SignupScreen> {
         // resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      const SizedBox(
+                        height: 50,
+                      ),
                       // svg
                       SvgPicture.asset(
                         'assets/ic_instagram.svg',
