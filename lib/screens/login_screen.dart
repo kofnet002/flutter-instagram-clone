@@ -43,11 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     if (res == 'Login successful') {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const ResponsiveLayout(
-                webScreenLayout: WebScreenLayout(),
-                mobileScreenLayout: MobileScreenLayout(),
-              )));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => const ResponsiveLayout(
+                    webScreenLayout: WebScreenLayout(),
+                    mobileScreenLayout: MobileScreenLayout(),
+                  )),
+          (Route<dynamic> route) => false);
     } else {
       showSnackBar(res, context);
     }
